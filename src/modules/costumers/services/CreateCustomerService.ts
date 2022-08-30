@@ -8,7 +8,7 @@ interface IRequest {
   email: string;
 }
 
-class CreateCostumerService {
+class CreateCustomerService {
   public async execute({ name, email }: IRequest): Promise<Customer> {
     const customersRepository = getCustomRepository(CustomersRepository);
     const emailExists = await customersRepository.findByEmail(email);
@@ -27,4 +27,4 @@ class CreateCostumerService {
   }
 }
 
-export default CreateCostumerService;
+export default CreateCustomerService;
