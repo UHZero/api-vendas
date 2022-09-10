@@ -11,7 +11,7 @@ export default class DiskStorageProvider {
     return file;
   }
   public async deleteFile(file: string): Promise<void> {
-    const filePath = path.resolve(uploadConfig.directory, file);
+    const filePath = await path.resolve(uploadConfig.directory, file);
     try {
       await fs.promises.stat(filePath);
     } catch (err) {
