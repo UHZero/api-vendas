@@ -4,7 +4,7 @@ import aws, { S3 } from 'aws-sdk';
 import mime from 'mime';
 import uploadConfig from '@config/upload';
 
-export default class DiskStorageProvider {
+export default class S3StorageProvider {
   private client: S3;
   constructor() {
     this.client = new aws.S3({
@@ -13,18 +13,18 @@ export default class DiskStorageProvider {
   }
   public async saveFile(file: string): Promise<string> {
     const originalPath = path.resolve(uploadConfig.tmpFolder, file);
-    const contentType = mime.getType(originalPath);
-    if (!contentType) {
+    const ContentType = mime.getType(originalPath);
+    if (!ContentType) {
       throw new Error('File not found!');
     }
-    const fileContent = fs.promises.readFile(originalPath);
+    const fileContent = await fs.promises.readFile(originalPath);
     await this.client
       .putObject({
         Bucket: uploadConfig.config.aws.bucket,
         Key: file,
         ACL: 'public-read',
         Body: fileContent,
-        ContentType: contentType,
+        ContentType,
       })
       .promise();
 

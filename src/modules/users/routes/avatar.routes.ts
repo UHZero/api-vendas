@@ -6,7 +6,7 @@ import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
 
 const avatarRouter = Router();
 const avatarController = new UserAvatarController();
-const upload = multer(uploadConfig);
+const upload = multer(uploadConfig.multer);
 
 avatarRouter.patch(
   '/',
