@@ -11,3 +11,5 @@ redis-cli
 set/get/del
 
 rodar container e criar o banco apivendas (ultilizei o dbeaver)
+
+..
