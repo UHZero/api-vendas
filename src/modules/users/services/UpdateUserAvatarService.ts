@@ -19,6 +19,13 @@ class UpdateUserAvatarService {
       throw new AppError('User not found!');
     }
 
+    if (!uploadConfig.driver) {
+      throw new AppError(
+        'Server is under maintenance, please wait a moment and try again later!',
+        503,
+      );
+    }
+
     if (uploadConfig.driver === 's3') {
       const S3Provider = new S3StorageProvider();
       if (user.avatar) {
@@ -26,7 +33,9 @@ class UpdateUserAvatarService {
       }
       const fileName = await S3Provider.saveFile(avatarFileName);
       user.avatar = fileName;
-    } else {
+    }
+
+    if (uploadConfig.driver === 'disk') {
       const diskProvider = new DiskStorageProvider();
       if (user.avatar) {
         await diskProvider.deleteFile(user.avatar);
